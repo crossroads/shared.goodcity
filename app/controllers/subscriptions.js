@@ -280,7 +280,7 @@ export default Ember.Controller.extend(Ember.Evented, {
 
     // update_store message is sent before response to APP save so ignore
     var fromCurrentUser =
-      parseInt(data.sender.user.id, 10) ===
+      parseInt(data.sender?.user?.id, 10) ===
       parseInt(this.session.get("currentUser.id"), 10);
     var hasNewItemSaving = this.store.peekAll(type).any(function(o) {
       return o.id === null && o.get("isSaving");
