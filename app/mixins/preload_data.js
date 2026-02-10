@@ -19,6 +19,9 @@ export default Ember.Mixin.create({
     }
 
     if (this.get("session.authToken")) {
+      promises = promises.concat(
+        this.store.query("cancellation_reason", { for: "offer" })
+      );
       promises.push(
         new AjaxPromise(
           "/auth/current_user_profile",
