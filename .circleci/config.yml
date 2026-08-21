@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  browser-tools: circleci/browser-tools@1.4.8
+
 executors:
   node-browser:
     docker:
@@ -68,6 +71,8 @@ jobs:
       - restore_yarn_cache
       - yarn_install
       - restore_bower_cache
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - run:
           name: Start Ember test server
           command: yarn run ember server --port 4203
