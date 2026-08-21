@@ -1,34 +1,46 @@
-version: 2
+version: 2.1
 
-aliases:
+executors:
+  node-browser:
+    docker:
+      - image: cimg/node:12.22-browsers
+    working_directory: ~/code
 
-  - defaults: &defaults
-      docker:
-        - image: circleci/node:carbon
-      working_directory: ~/code
-  - &restore-repo-cache
-      key: shared-goodcity-repo-{{ .Environment.CIRCLE_SHA1 }}
-  - &restore-yarn-cache
-      keys:
-        - shared-goodcity-yarn-packages-{{ checksum "yarn.lock" }}
-  - &save-yarn-cache
-      key: shared-goodcity-yarn-packages-{{ checksum "yarn.lock" }}
-      paths:
-        - node_modules
-        - ~/.cache/yarn
-  - &yarn
-    |
-      yarn install --non-interactive --cache-folder ~/.cache/yarn --frozen-lockfile
-  - &restore-bower-cache
-      key: shared-goodcity-bower-components-{{ checksum "bower.json" }}
-  - &save-bower-cache
-      key: shared-goodcity-bower-components-{{ checksum "bower.json" }}
-      paths:
-        - bower_components
+commands:
+  restore_repo:
+    steps:
+      - restore_cache:
+          key: shared-goodcity-repo-{{ .Environment.CIRCLE_SHA1 }}
+  restore_yarn_cache:
+    steps:
+      - restore_cache:
+          keys:
+            - shared-goodcity-yarn-packages-{{ checksum "yarn.lock" }}
+  save_yarn_cache:
+    steps:
+      - save_cache:
+          key: shared-goodcity-yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+            - ~/.cache/yarn
+  yarn_install:
+    steps:
+      - run:
+          command: yarn install --non-interactive --cache-folder ~/.cache/yarn --frozen-lockfile
+  restore_bower_cache:
+    steps:
+      - restore_cache:
+          key: shared-goodcity-bower-components-{{ checksum "bower.json" }}
+  save_bower_cache:
+    steps:
+      - save_cache:
+          key: shared-goodcity-bower-components-{{ checksum "bower.json" }}
+          paths:
+            - bower_components
 
 jobs:
   checkout_code:
-    <<: *defaults
+    executor: node-browser
     steps:
       - checkout
       - save_cache:
@@ -37,28 +49,25 @@ jobs:
             - ~/code
 
   package_dependencies:
-    <<: *defaults
+    executor: node-browser
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
+      - restore_repo
+      - restore_yarn_cache
       - run: yarn link
-      - run: yarn add codeclimate-test-reporter
       - run: yarn add bower
-      - run: *yarn
-      - save-cache: *save-yarn-cache
-      - restore-cache: *restore-bower-cache
+      - yarn_install
+      - save_yarn_cache
+      - restore_bower_cache
       - run: yarn run bower install
-      - save-cache: *save-bower-cache
+      - save_bower_cache
 
   tests:
-    <<: *defaults
-    docker:
-      - image: circleci/node:8-browsers
+    executor: node-browser
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
-      - run: *yarn
-      - restore-cache: *restore-bower-cache
+      - restore_repo
+      - restore_yarn_cache
+      - yarn_install
+      - restore_bower_cache
       - run:
           name: Start Ember test server
           command: yarn run ember server --port 4203
@@ -68,45 +77,15 @@ jobs:
           command: dockerize -wait tcp://localhost:4203 -timeout 1m
       - run:
           name: Run Ember tests
-          command: COVERAGE=true yarn run ember test
-      - persist_to_workspace:
-          root: .
-          paths:
-            - coverage*/lcov.info
-      
-  deployment:
-    <<: *defaults
-    steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
-      - restore-cache: *restore-bower-cache
-      - run:
-          name: Setup Environment variables
-          command: |
-            echo 'export BRANCH_NAME=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo live; else echo master; fi)' >> $BASH_ENV
-      - run:
-          name: Rebuild Donor app build
-          command: |
-            curl -X POST -H "Accept: application/json" -H "Content-Type: application/json" "https://circleci.com/api/v1.1/project/github/crossroads/app.goodcity/build?circle-token=$circle_token"
-      - run:
-          name: Rebuild Admin app build
-          command: |
-            curl -X POST -H "Accept: application/json" -H "Content-Type: application/json" "https://circleci.com/api/v1.1/project/github/crossroads/admin.goodcity/build?circle-token=$circle_token"
+          command: yarn run ember test
+
 workflows:
-    version: 2
-    build-test-and-deploy:
-      jobs:
-        - checkout_code
-        - package_dependencies:
-            requires:
-              - checkout_code
-        - tests:
-            requires:
-              - package_dependencies
-        - deployment:
-            requires:
-              - tests
-              - package_dependencies
-            filters:
-              branches:
-                only: /^(master|live)$/
+  build-test-and-deploy:
+    jobs:
+      - checkout_code
+      - package_dependencies:
+          requires:
+            - checkout_code
+      - tests:
+          requires:
+            - package_dependencies
