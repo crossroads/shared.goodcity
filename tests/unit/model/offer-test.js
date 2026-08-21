@@ -12,6 +12,7 @@ moduleForModel("offer", "Offer Model", {
     "model:delivery",
     "model:company",
     "model:user",
+    "model:district",
     "service:i18n",
     "service:cloudinaryUtils"
   ]
