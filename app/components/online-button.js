@@ -18,12 +18,14 @@ export default Ember.Component.extend(Ember.TargetActionSupport, {
 
   didInsertElement: function() {
     this.updateDisabled = Ember.run.bind(this, () => {
-      var online = navigator.connection ? navigator.connection.type !== "none" : navigator.onLine;
+      var online = navigator.onLine;
       this.set("disabled", !online || this.get("disabledOverride"));
     });
     this.updateDisabled();
-    if(this.get("offer")) {
-      this.get("offer.state") === "received" ? this.set("disabled", true) : this.set("disabled", false);
+    if (this.get("offer")) {
+      this.get("offer.state") === "received"
+        ? this.set("disabled", true)
+        : this.set("disabled", false);
     }
     window.addEventListener("online", this.updateDisabled);
     window.addEventListener("offline", this.updateDisabled);
@@ -41,6 +43,6 @@ export default Ember.Component.extend(Ember.TargetActionSupport, {
     if (typeof args === "string" && args.indexOf("[") === 0) {
       args = JSON.parse(args);
     }
-    this.triggerAction({actionContext: args});
+    this.triggerAction({ actionContext: args });
   }
 });

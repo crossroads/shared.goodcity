@@ -50,9 +50,7 @@ export default Ember.Controller.extend(Ember.Evented, {
 
   updateStatus: Ember.observer("socket", function() {
     var socket = this.get("socket");
-    var online = navigator.connection
-      ? navigator.connection.type !== "none"
-      : navigator.onLine;
+    var online = navigator.onLine;
     online = socket && socket.connected && online;
     var hidden =
       !this.session.get("isLoggedIn") ||
@@ -281,9 +279,11 @@ export default Ember.Controller.extend(Ember.Evented, {
     // update_store message is sent before response to APP save so ignore
     var senderId =
       data && data.sender && data.sender.user && data.sender.user.id != null
-      ? data.sender.user.id
-      : '0';
-    var fromCurrentUser = (parseInt(senderId, 10) === parseInt(this.session.get("currentUser.id"), 10));
+        ? data.sender.user.id
+        : "0";
+    var fromCurrentUser =
+      parseInt(senderId, 10) ===
+      parseInt(this.session.get("currentUser.id"), 10);
     var hasNewItemSaving = this.store.peekAll(type).any(function(o) {
       return o.id === null && o.get("isSaving");
     });
