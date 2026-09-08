@@ -17,6 +17,7 @@
   <div class="row">
     <div class="small-12 columns">
 
+      {{#if allowInAppVanBooking}}
       {{#if model.hasGogovanTransport}}
         <div class="row">
           <div class="small-8 columns left">
@@ -43,6 +44,7 @@
           </div>
         </div>
         <hr/>
+      {{/if}}
       {{/if}}
 
       {{#if model.hasCrossroadsTransport}}

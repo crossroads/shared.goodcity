@@ -10,6 +10,8 @@ export default Ember.Controller.extend({
   isDiscountAvailable: false,
   couponDiscount: 0,
   priceWithDiscount: 0,
+  settings: Ember.inject.service(),
+  allowInAppVanBooking: Ember.computed.alias("settings.allowInAppVanBooking"),
 
   offer: Ember.computed("offerId", function() {
     return this.store.peekRecord("offer", this.get("offerId"));
