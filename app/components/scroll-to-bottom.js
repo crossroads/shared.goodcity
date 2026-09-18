@@ -17,8 +17,13 @@ export default Ember.Component.extend({
         Ember.$(".all_unread_messages_count").addClass("fixed_to_header");
       }
 
-      // Fixed header in iOS
+      // The message bar is absolutely positioned so we need to ensure we add in some padding
+      //   for phone notches in iOS. cordova-android takes care of this already.
       if (_this.get("cordova").isIOS()) {
+        Ember.$(".tab-bar").css({
+          height: "calc(env(safe-area-inset-top, 0px) + 2.8125rem)"
+        });
+
         Ember.$(".sticky_title_bar").css({
           "padding-top": "env(safe-area-inset-top, 0px)"
         });
