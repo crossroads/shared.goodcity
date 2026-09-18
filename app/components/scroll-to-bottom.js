@@ -19,22 +19,15 @@ export default Ember.Component.extend({
 
       // Fixed header in iOS
       if (_this.get("cordova").isIOS()) {
-        // Keep top:0 so the header's own background still covers the status bar
-        // rect (otherwise scrolled content peeks through above it); push the
-        // header's content down with padding instead, and grow height to match
-        // since box-sizing is border-box. Android is deliberately excluded here -
-        // cordova-android's native margin + statusBarView already handle this.
         Ember.$(".sticky_title_bar").css({
-          "padding-top": "env(safe-area-inset-top, 0px)",
-          height: "calc(3.125rem + env(safe-area-inset-top, 0px))"
+          "padding-top": "env(safe-area-inset-top, 0px)"
         });
 
-        // Header content area grew from 2.8125rem to 3.125rem (+0.3125rem) for more
-        // breathing room around the title/back button - bump the matching content
-        // offset below by the same delta so it still starts right where the header
-        // ends. iOS-only, same reasoning as the header height change above.
-        Ember.$(".item-messages").css("padding-top", "3.1125rem");
-        Ember.$(".offer_messages_section").css("padding-top", "4.3125rem");
+        Ember.$(
+          ".sticky_title_bar .tab-bar-section, .sticky_title_bar .left-small, .sticky_title_bar .right-small"
+        ).css({
+          "padding-top": "env(safe-area-inset-top, 0px)"
+        });
 
         Ember.$("textarea").on("touchstart", function() {
           Ember.$(".sticky_title_bar").css({ position: "absolute" });
