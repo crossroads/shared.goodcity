@@ -33,9 +33,59 @@
   // The tick box is the first (absolutely positioned, 25px) label; the text is a
   // second label for the same checkbox so it can span the full column width.
   // Font size matches the page's .description text (_drop_off.scss).
+  //
+  // Box and tick are spelled out in full (not left to _custom_checkbox.scss)
+  // because admin.goodcity's global _checkbox_styles.scss restyles every
+  // `[type="checkbox"] + label` with its own padding, :before box and ✔ :after.
+  .checkbox {
+    position: relative;
+  }
+
   .checkbox input[type="checkbox"] {
     position: absolute;
     margin: 0;
+  }
+
+  .checkbox label:not(.checkbox-text) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    background: white;
+    border: 1px solid $iron;
+    cursor: pointer;
+
+    &:before {
+      content: none;
+    }
+
+    &:after {
+      content: '';
+      opacity: 0;
+      position: absolute;
+      top: 0.3rem;
+      left: 0.15rem;
+      width: 1rem;
+      height: 0.5rem;
+      background: transparent;
+      border: 0.25rem solid $coral-red;
+      border-top: none;
+      border-right: none;
+      font-size: 0;
+      transition: none;
+      transform: rotate(-45deg);
+    }
+  }
+
+  .checkbox input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: rotate(-45deg);
+  }
+
+  .checkbox .checkbox-text:before {
+    content: none;
   }
 
   .checkbox .checkbox-text {

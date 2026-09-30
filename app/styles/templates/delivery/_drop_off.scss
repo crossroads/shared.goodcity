@@ -25,6 +25,10 @@
   }
 
   .description {
+    // inherit: admin.goodcity's review_offer/_logistics.scss has a global
+    // `.description { font-size: 0.7rem }` that would otherwise shrink this text.
+    font-size: inherit;
+
     @media #{$large-only} {
       font-size: 0.9rem;
     }
