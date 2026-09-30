@@ -241,9 +241,17 @@ I18nTranslationsZhTw =
 
     "crossroads" :
       "title" : "親身運送"
-      "info" : "於辦公時間，<br/>親身將物資送到我們位於屯門的辦公室"
+      "info" : "於辦公時間，使用您自己的車輛將物資送到我們位於屯門的辦公室"
       "free" : "費用全免"
       "booking_button" : "了解詳情及預約時間"
+
+    "self_arranged_van" :
+      "title" : "自行安排貨車"
+      "info" : "您需於GoGoX或Lalamove應用程式內自行預約及支付貨車費用。只需告訴我們貨車何時到達。"
+      "booking_button" : "告訴我們貨車到達時間"
+      "cost" : "您向司機付款"
+      "notice_title" : "貨車預約安排已更改。"
+      "notice_body" : "好人好市已無法再為您預約貨車。如您希望使用貨車，請自行於GoGoX或Lalamove應用程式內預約及付款，然後告訴我們貨車何時到達。"
 
   "collection_charges":
       "info": '''
@@ -334,10 +342,28 @@ I18nTranslationsZhTw =
     "volunteer": "我們的義工團隊將協助搬運。"
     "see_map": "詳見地圖"
     "delivery_to": "請送到："
-    "crossroads_address": "<br/>新界屯門青山公路2號<br/> 十字路會32號大樓"
+    "crossroads_address": "收貨部<br/>十字路會32號大樓<br/>新界屯門青山公路2號"
     "arrive": "請在辦公時間光臨。"
     "message_us": "如有任何疑問，請通過好人好市應用程式向我們查詢。"
     "thanks": "閣下安排遞送物資，我們衷心感激。"
+
+  "self_arranged_van":
+    "schedule":
+      "select_schedule": "選擇貨車到達時間"
+      "notice_title": "我們不會為您預約貨車。"
+      "notice_body": "在此儲存時間後，請開啟GoGoX或Lalamove自行預約貨車，並直接向司機付款。"
+      "when_will_van_arrive": "您的貨車將於何時到達？"
+      "arrival_guidance": "請預約貨車於您所選的時段內到達我們的倉庫。在貨車應用程式內設定上貨時間時，請預留路程時間。"
+      "book_button": "儲存貨車到達時間"
+      "acknowledge": "我明白必須就所選時段，於GoGoX或Lalamove應用程式內自行預約及支付貨車費用。十字路會將不會支付此運輸費用。"
+    "confirmed":
+      "heading": "您仍需預約貨車"
+      "step_open_app": "開啟GoGoX或Lalamove（連結見下方）。"
+      "step_address": "將落貨地址設定為我們的收貨部（地址見下方）。"
+      "step_arrive": "預約貨車於{{date}} {{slot}}到達。"
+      "step_pay": "直接向司機付款。十字路會將不會負擔此費用。"
+      "step_label": "在您的物品上寫上捐贈參考編號 <b>{{ref}}</b>，讓我們知道物品由您捐出。"
+      "cancel_reminder": "請緊記您亦須於貨車應用程式內取消預約。"
 
   "crossroads_truck":
         "book_time": "預約時間"

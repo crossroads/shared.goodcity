@@ -12,6 +12,19 @@ export default Ember.Controller.extend({
   priceWithDiscount: 0,
   settings: Ember.inject.service(),
   allowInAppVanBooking: Ember.computed.alias("settings.allowInAppVanBooking"),
+  allowSelfArrangedVanBooking: Ember.computed.alias(
+    "settings.allowSelfArrangedVanBooking"
+  ),
+  showVanBookingNotice: Ember.computed(
+    "allowSelfArrangedVanBooking",
+    "allowInAppVanBooking",
+    function() {
+      return (
+        this.get("allowSelfArrangedVanBooking") &&
+        !this.get("allowInAppVanBooking")
+      );
+    }
+  ),
 
   offer: Ember.computed("offerId", function() {
     return this.store.peekRecord("offer", this.get("offerId"));
@@ -81,6 +94,9 @@ export default Ember.Controller.extend({
               break;
             case "Drop Off":
               route = "delivery.drop_off_schedule";
+              break;
+            case "Self Arranged Van":
+              route = "delivery.book_self_arranged_van";
               break;
           }
 

@@ -333,6 +333,8 @@ export default DS.Model.extend({
         return this.locale("offers.index.drop_off");
       case "Alternate":
         return this.locale("offers.index.alternate");
+      case "Self Arranged Van":
+        return this.locale("offers.index.self_arranged_van");
     }
   },
 
@@ -565,6 +567,8 @@ export default DS.Model.extend({
         prefix = this.locale("offer.offer_details.is_collection");
       } else if (this.get("delivery.isDropOff")) {
         prefix = this.locale("offer.offer_details.is_drop_off");
+      } else if (this.get("delivery.isSelfArrangedVan")) {
+        prefix = this.locale("offer.offer_details.is_self_arranged_van");
       } else if (this.get("delivery.isGogovan")) {
         prefix = this.get("delivery.gogovanOrder.ggvOrderStatus");
       }

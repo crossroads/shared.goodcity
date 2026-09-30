@@ -28,7 +28,8 @@
                 selection=selectedDate
                 required='true'
                 placeholder=datePrompt
-                available=available_dates}}
+                available=available_dates
+                on-clear-time=(action (mut selectedId) null)}}
               <i class="fa fa-calendar calender_icon" style="pointer-events: none"></i>
             </div>
 

@@ -241,9 +241,17 @@ I18nTranslationsEn =
 
     "crossroads" :
       "title" : "Deliver to Us"
-      "info" : "Drop off at Tuen Mun during<br/>our hours of operation."
+      "info" : "Use your own vehicle to drop off at Tuen Mun during our hours of operation"
       "free" : "Free"
       "booking_button" : "Details & Booking"
+
+    "self_arranged_van" :
+      "title" : "Arrange your own van"
+      "info" : "You book and pay for the van in the GoGoX or Lalamove app. Just tell us when it will arrive."
+      "booking_button" : "Tell us when your van arrives"
+      "cost" : "You pay the driver"
+      "notice_title" : "Van booking has changed."
+      "notice_body" : "GoodCity can no longer book a van for you. If you'd like to use a van, you'll book and pay for it yourself in the GoGoX or Lalamove app, then tell us when it will arrive."
 
   "collection_charges":
       "info": '''
@@ -334,10 +342,28 @@ I18nTranslationsEn =
     "volunteer": "Our volunteers can help unload your vehicle."
     "see_map": "See map"
     "delivery_to": "Deliver To:"
-    "crossroads_address": "Crossroads Village,<br/> 2 Castle Peak Road, Tuen Mun, NT<br/> Drop off at Building 32"
+    "crossroads_address": "Incoming Department<br/>Building 32, Crossroads Village<br/>2 Castle Peak Road, Tuen Mun, NT"
     "arrive": "Please arrive during our operating hours."
     "message_us": "Message us via this app if you have any questions."
     "thanks": "Thank you for arranging delivery of your items."
+
+  "self_arranged_van":
+    "schedule":
+      "select_schedule": "Select Van Arrival Schedule"
+      "notice_title": "We don't book the van for you."
+      "notice_body": "After you save your time here, open GoGoX or Lalamove and book a van yourself. You pay the driver directly."
+      "when_will_van_arrive": "When will your own van arrive?"
+      "arrival_guidance": "Book your van so it arrives at our warehouse within the time slot you choose. Allow for travel time when you set the pickup time in the van app."
+      "book_button": "Save my van arrival time"
+      "acknowledge": "I understand I must book and pay for this van myself, for this time period, in the GoGoX or Lalamove app. Crossroads will not pay for this transport."
+    "confirmed":
+      "heading": "You still need to book your van"
+      "step_open_app": "Open GoGoX or Lalamove (links below)."
+      "step_address": "Set the drop-off address to our Incoming Department (address below)."
+      "step_arrive": "Book it to arrive {{slot}}, {{date}}."
+      "step_pay": "Pay the driver directly. Crossroads doesn't cover this cost."
+      "step_label": "Write the donation reference number <b>{{ref}}</b> on your items, so we know it's from you."
+      "cancel_reminder": "Remember you must also cancel the booking in your van app."
 
   "crossroads_truck":
     "book_time": "Book Time"

@@ -1,0 +1,133 @@
+<div class = 'row delivery-details'>
+  <div class="small-12 columns">
+
+    <div class="van-booking-notice">
+      <strong><i class="fa fa-exclamation-circle"></i> {{t "self_arranged_van.confirmed.heading"}}</strong>
+      <ol class="van-booking-steps">
+        <li>{{t "self_arranged_van.confirmed.step_open_app"}}</li>
+        <li>{{t "self_arranged_van.confirmed.step_address"}}</li>
+        <li>{{t "self_arranged_van.confirmed.step_arrive" slot=delivery.schedule.slotName date=(display-datetime delivery.schedule.scheduledAt format='ddd Do MMM')}}</li>
+        <li>{{t "self_arranged_van.confirmed.step_pay"}}</li>
+        <li>{{t "self_arranged_van.confirmed.step_label" ref=model.id}}</li>
+      </ol>
+    </div>
+    <div class="row app-store-links">
+      <div class="small-6 columns store-link">
+        {{#external-link linkUrl=gogoxLink}}
+          <img src="assets/images/gogox-logo.png" class="app-logo" alt="GoGoX"/>
+        {{/external-link}}
+      </div>
+      <div class="small-6 columns store-link">
+        {{#external-link linkUrl=lalamoveLink}}
+          <img src="assets/images/lalamove-logo.png" class="app-logo" alt="Lalamove"/>
+        {{/external-link}}
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="small-6 columns">
+        {{t 'delivery_details.time'}}
+      </div>
+      <div class="small-6 columns right strong">
+        {{delivery.schedule.slotName}},
+        {{display-datetime delivery.schedule.scheduledAt format='ddd Do MMM'}}
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="small-6 columns">
+        {{t "drop-off.delivery_to"}}<br/>
+        {{#external-link linkUrl=(crossroads_map_link)}}
+          <img src="assets/images/google-map-pin.png" class='gmap_link'/>
+        {{/external-link}}
+      </div>
+      <div class="small-6 columns right strong">
+        {{t "drop-off.crossroads_address"}}
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="small-6 columns">
+        {{t "delivery_details.crossroads_phone"}}
+      </div>
+      <div class="small-6 columns right strong">
+        {{crossroadsContact}}
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="small-6 columns">
+        {{t "delivery_details.donation_reference"}}
+      </div>
+      <div class="small-6 columns right strong">
+        {{model.id}}
+      </div>
+    </div>
+
+    {{#if model.isScheduled}}
+      <hr>
+      {{#unless model.hideBookingModification}}
+        <div class="row transport-buttons">
+          <div class="small-5 columns">
+            <a href="#" {{action 'modifyBooking'}} class="button expand">{{t 'delivery_details.modify'}}</a>
+          </div>
+          <div class="small-7 columns">
+            <a href="#" {{action 'cancelDelivery'}} class="button secondary expand">{{t 'delivery_details.cancel_booking'}}</a>
+          </div>
+        </div>
+      {{/unless}}
+    {{/if}}
+
+    <hr>
+    <div class="row">
+      <div class="small-12 columns">
+        {{t 'delivery_details.accepted_items'}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns items_list">
+         {{image-full-preview items=model.approvedItems}}
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="small-6 columns">
+        {{t 'delivery_details.name'}}
+      </div>
+      <div class="small-6 columns right strong">
+        {{userName}}
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="small-6 columns">
+        {{t 'delivery_details.phone'}}
+      </div>
+      <div class="small-6 columns right strong">
+        {{#if isDonorApp}}
+          {{userMobile}}
+        {{else}}
+          {{phone-number number=userMobile}}
+        {{/if}}
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="small-6 columns">
+        {{t 'delivery_details.charity_sale'}}
+      </div>
+      <div class="small-6 columns right strong">
+        {{model.isCharitableSale}}
+      </div>
+    </div>
+
+  </div>
+</div>

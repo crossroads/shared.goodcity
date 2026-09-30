@@ -202,6 +202,8 @@
       {{/if}}
     </div>
   </div>
+{{else if delivery.isSelfArrangedVan}}
+  {{partial 'offer/self_arranged_van_transport_details'}}
 {{else}}
   {{partial 'offer/drop_off_transport_details'}}
 {{/if}}
