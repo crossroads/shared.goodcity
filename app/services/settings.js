@@ -36,7 +36,8 @@ export default Ember.Service.extend({
    * <br> Add any new configuration keys here
    */
   defaults: {
-    "app.allow_in_app_van_booking": true
+    "app.allow_in_app_van_booking": true,
+    "app.allow_self_arranged_van_booking": true
   },
 
   /**
@@ -44,6 +45,14 @@ export default Ember.Service.extend({
    */
   allowInAppVanBooking: Ember.computed(function() {
     return this.readBoolean("app.allow_in_app_van_booking");
+  }),
+
+  /**
+   * @property {Computed<boolean>} allowSelfArrangedVanBooking whether donors can tell us
+   * a date/time and book their own GoGoX/Lalamove van
+   */
+  allowSelfArrangedVanBooking: Ember.computed(function() {
+    return this.readBoolean("app.allow_self_arranged_van_booking");
   }),
 
   // ---- Access methods

@@ -1,0 +1,86 @@
+<nav class="tab-bar">
+  <section class="left-small">
+    {{link-to (t "back") 'offer.plan_delivery' classNames="back"}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t "self_arranged_van.schedule.select_schedule"}}</h1>
+  </section>
+</nav>
+
+{{#if available_dates}}
+  {{#validatable-form class="form-horizontal" action="bookSchedule" on="submit"}}
+    <section class="main-section self_arranged_van ui">
+      <div class="row">
+        <div class="small-12 columns">
+
+          <div class="van-booking-notice">
+            <strong><i class="fa fa-exclamation-circle"></i> {{t "self_arranged_van.schedule.notice_title"}}</strong>
+            {{t "self_arranged_van.schedule.notice_body"}}
+          </div>
+
+          <div class="row">
+            <h3>{{t "self_arranged_van.schedule.when_will_van_arrive"}}</h3>
+            <div class='description'>{{t "gogovan.book_van.crossroads_time"}}</div>
+          </div>
+
+          <div class="row">
+            <div class="small-7 columns date_selector">
+              {{month-calender
+                name='selectedDate'
+                id='selectedDate'
+                value=''
+                selection=selectedDate
+                required='true'
+                placeholder=datePrompt
+                available=available_dates
+                on-clear-time=(action (mut selectedId) null)}}
+              <i class="fa fa-calendar calender_icon" style="pointer-events: none"></i>
+            </div>
+
+            <div class="small-5 columns time_selector">
+              {{select-list
+                content=slots
+                on-change=(action (mut selectedId))
+                selectedValue=selectedId
+                prompt=timePrompt
+                required='true'}}
+
+              <i class="fa fa-clock-o time_icon" style="pointer-events: none"></i>
+            </div>
+          </div>
+
+          <div class="row schedule_info">
+            <div class='description'>
+              {{t "self_arranged_van.schedule.arrival_guidance"}}
+            </div>
+          </div>
+          <br/>
+
+          <div class="row acknowledge">
+            <div class="small-12 columns">
+              <div class="checkbox">
+                {{input type="checkbox" checked=acknowledged id='acknowledge_self_arranged_van'}}
+                <label for='acknowledge_self_arranged_van'></label>
+                <label for='acknowledge_self_arranged_van' class="checkbox-text">{{t "self_arranged_van.schedule.acknowledge"}}</label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="btm">
+      <div class="row">
+        <div class={{ concat "small-10 small-offset-1 columns " (if requiredFieldsFilled "" "disabled-inputs") }}>
+          {{#online-button tagName="button" classNames="button expand self_arranged_van" }}{{t "self_arranged_van.schedule.book_button"}} {{/online-button}}
+        </div>
+      </div>
+    </div>
+  {{/validatable-form}}
+{{else}}
+  <div class="loading_container">
+    {{partial 'loading'}}
+  </div>
+{{/if}}
