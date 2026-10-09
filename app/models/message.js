@@ -35,8 +35,10 @@ export default DS.Model.extend({
     body = body.replace(/(<br>)/gm, "\n");
     body = body.replace(/(<)/g, "&lt;");
 
+    // Only match an href with no whitespace, so an attacker cannot smuggle
+    // extra attributes (e.g. an onmouseover handler) into the rebuilt anchor.
     let hrefExpressionMatch = body.match(
-      /\&lt;a href=(.*?)\>(.*?)\&lt;\/a\s*?\>/
+      /\&lt;a href=([^\s>]*?)\>(.*?)\&lt;\/a\s*?\>/
     );
     if (hrefExpressionMatch) {
       body = this.sanitizingAnchorLinks(body, hrefExpressionMatch);
@@ -44,17 +46,24 @@ export default DS.Model.extend({
     return body;
   }),
 
+  // Re-enable ONLY the two links the app itself generates (see
+  // message-link-convertor): a relative plan-delivery link and the donor
+  // survey form. The href is matched against the exact generated shapes, so
+  // a body stored through the API directly cannot inject a `javascript:` or
+  // off-site link, and the visible text is HTML-escaped. See issue OA-54.
   sanitizingAnchorLinks(body, hrefExpressionMatch) {
     let originalLink = hrefExpressionMatch[0];
     let anchorLink = hrefExpressionMatch[1];
     let text = hrefExpressionMatch[2];
-    if (
-      anchorLink.includes("/plan_delivery") ||
-      anchorLink.includes(
-        "crossroads-foundation.formstack.com/forms/goods_donor_survey?field"
-      )
-    ) {
-      body = body.replace(originalLink, `<a href=${anchorLink}>${text}</a>`);
+    let href = anchorLink.replace(/^['"]|['"]$/g, "");
+    let isSafe =
+      /^\/offers\/\d+\/plan_delivery$/.test(href) ||
+      href.indexOf(
+        "https://crossroads-foundation.formstack.com/forms/goods_donor_survey?field"
+      ) === 0;
+    if (isSafe) {
+      let safeText = Ember.Handlebars.Utils.escapeExpression(text);
+      body = body.replace(originalLink, `<a href='${href}'>${safeText}</a>`);
     }
     return body;
   },

@@ -18,7 +18,12 @@ export default DS.Model.extend({
   fullAddress: Ember.computed('flat','building','street', function() {
     var addressDetails = [this.get('flat'), this.get('building'), this.get('street')];
     addressDetails = Ember.isBlank(addressDetails.compact()) ? [this.get('district.name'), this.get('district.territory.name')] : addressDetails;
-    var formattedAddress = addressDetails.join('<br>');
+    // Donor-entered address lines are joined with <br> and rendered as a
+    // SafeString, so escape each part to keep the layout break while treating
+    // the content as text. See issue OA-54.
+    var formattedAddress = addressDetails.compact().map(function(part) {
+      return Ember.Handlebars.Utils.escapeExpression(part);
+    }).join('<br>');
     return new Ember.Handlebars.SafeString(formattedAddress);
   }),
 
